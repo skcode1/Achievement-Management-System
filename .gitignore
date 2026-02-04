@@ -1,0 +1,29 @@
+# Python Environment
+venv/
+venv1/
+.env
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Local Database (Keep data local, not on GitHub)
+ams.db
+*.sqlite
+*.sqlite3
+
+# Uploads and User-Generated Content
+static/uploads/*
+!static/uploads/.gitkeep
+
+# System/IDE Specific
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Flask/Distribution
+instance/
+dist/
+build/
+*.egg-info/
