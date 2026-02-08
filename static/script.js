@@ -1,35 +1,26 @@
 document.addEventListener("DOMContentLoaded", function () {
   const toggleButton = document.getElementById("mode-toggle");
-  const systemPrefersLight = window.matchMedia("(prefers-color-scheme: light)");
+  if (!toggleButton) return;
 
-  function setLightMode(isLight, save = true) {
-    document.body.classList.toggle("light-mode", isLight);
-    toggleButton.textContent = isLight ? "Light Mode ☀️" : "Dark Mode 🌙";
-    if (save) {
-      localStorage.setItem("theme", isLight ? "light" : "dark");
-    }
-  }
+  const savedTheme = localStorage.getItem("theme") || "dark";
 
-  // Check saved theme
-  const savedTheme = localStorage.getItem("theme");
-
-  if (savedTheme) {
-    setLightMode(savedTheme === "light", false);
+  if (savedTheme === "light") {
+    document.body.classList.add("light-mode");
+    toggleButton.textContent = "☀️";
   } else {
-    // No saved theme → follow system preference
-    setLightMode(systemPrefersLight.matches, false);
+    document.body.classList.remove("light-mode");
+    toggleButton.textContent = "🌙";
   }
 
-  // Toggle theme on button click (manual override)
   toggleButton.addEventListener("click", function () {
-    const isLight = !document.body.classList.contains("light-mode");
-    setLightMode(isLight);
-  });
+    const isLight = document.body.classList.toggle("light-mode");
 
-  // Optional: live update if system theme changes (only if no manual override)
-  systemPrefersLight.addEventListener("change", (e) => {
-    if (!localStorage.getItem("theme")) {
-      setLightMode(e.matches, false);
+    if (isLight) {
+      toggleButton.textContent = "☀️";
+      localStorage.setItem("theme", "light");
+    } else {
+      toggleButton.textContent = "🌙";
+      localStorage.setItem("theme", "dark");
     }
   });
 });
